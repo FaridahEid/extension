@@ -1,12 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "Webstorm Test extension",
+  "name": "Test extension",
   "version": "1.0",
-  "description": "Hello world extension made on webstorm",
+  "description": "Hello world extension",
   "icons":{
     "128": "icon128.png",
     "48": "icon48.png",
     "16": "icon16.png"
+  },
+  "background": {
+    "service_worker": "popup.js"
   },
   "action": {
     "default_icon": "icon16.png",
