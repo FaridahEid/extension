@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Webstorm Test extension",
+  "version": "1.0",
+  "description": "Hello world extension made on webstorm",
+  "icons":{
+    "128": "icon128.png",
+    "48": "icon48.png",
+    "16": "icon16.png"
+  },
+  "action": {
+    "default_icon": "icon16.png",
+    "default_popup": "popup.html"
+  },
+  "permissions": [
+    "tabs"
+  ]
+}
