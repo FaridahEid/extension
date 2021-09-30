@@ -4,25 +4,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Hello world!!</title>
+
+
+
 </head>
 <body>
-    <p id="demo"></p>
-    <div class="login">
-        <div class="login-triangle"></div>
+<p id="demo"></p>
+<div class="login">
+    <div class="login-triangle"></div>
 
-        <h2 class="login-header">Log in</h2>
+    <h2 class="login-header">Log in</h2>
 
-        <form class="login-container">
-            <p><input type="email" placeholder="Email"></p>
-            <p><input type="password" placeholder="Password"></p>
-            <input id="login" type="submit" value="Log in...">
-            <input id="getid" type="button" value="Give me ID">
-            <h3><span id="ID"></span></h3>
+    <form class="login-container">
 
-            <input id="get" type="button" value="GET">
-        </form>
-    </div>
 
-    <script src="popup.js"></script>
+        <input id="login" type="submit" value="Log in...">
+        <input id="getAccount" type="button" value="Account Details">
+        <div2 id="listinfo">
+            <h4><span id="ID"></span></h4>
+            <h4><span id="email"></span></h4>
+            <h4><span id="username"></span></h4>
+        </div2>
+
+        <input id="get" type="button" value="GET">
+
+    </form>
+</div>
 </body>
+<script type="module" src="popup.js">
+</script>
 </html>
