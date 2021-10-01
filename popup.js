@@ -46,8 +46,9 @@ async function getID() {
             //insert api call here
             // axios.get()
             let finalurl = substrings[5];
-            sendDocumentID(finalurl);
+            getCredentials();
             document.getElementById("ID").innerHTML = substrings[5];
+            sendDocumentID(finalurl);
         }
         //document.write("The document ID is: "+substrings[5]);
         // use `url` here inside the callback because it's asynchronous!
@@ -57,26 +58,44 @@ async function getID() {
 }
 //......................................................................................................................
 //This functions gets the google oauth access token and fetches the get title
-let AuthURL="";
-async function sendDocumentID(documentID) {
+let AuthURL="no url";
+//let code="4/0AX4XfWh5crIkp-wYTVc1tquyvTL5YgAMGxOrkOqz4471phqu9lxUv2LzOFape-_obz5Ocg";
+/*let token={
+    "access_token": "ya29.a0ARrdaM-R6PSxv1yNVLZGmcYHgiokCIQ6kKB7JkprM2Zu_ISN51zihYsop7GvNp9E6E_2KzO-rXk5a0qq18HPb2M3E9B_1YDKuOxqOy7fIYmXZJSiQQlnoKGoxslBzCvz0I20jC_QHbnqxpnGm5k2Cs6p-xlH1A",
+    "scope": "https://www.googleapis.com/auth/drive",
+    "token_type": "Bearer",
+    "expiry_date": 1633090978412
+};*/
+let urlReceived;
+let token;
+async function getCredentials() {
     //alert("sendocu");
-    console.log("making get auth url");
-
     await fetch ('http://localhost:3000/getAuthURL',{
         method: 'GET'
-
+        /*headers: {
+            'Content-Type': 'application/json'
+        }*/
     })
-        .then(res => {return res.text();})
-        .then(getAuthURL =>{AuthURL=getAuthURL});
-    console.log("variable saved as: "+ AuthURL);
-    document.getElementById("auth link").innerHTML = AuthURL;
-    //code = "4/0AX4XfWh7Y_obLKUNiimsyad9XzaCLGzUtjax-n6IY7JQYCFUy1-qZfWfh_XnvyRq1q-dhw";
-    //console.log(AuthURL.status);
-    //redirect the user to this url
 
+        .then(res=> res.text())
+        .then(data=>urlReceived=data)
 
+    console.log(urlReceived);
+    //calling function to open the link
+
+    //console.log(token);
+    //console.log("variable saved as: "+ token);
+    document.getElementById("auth link").innerHTML = urlReceived;
+
+    //takeInput();
 }
-
+function httpGet(theUrl)
+{
+    var xmlHttp = new XMLHttpRequest();
+    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
+    xmlHttp.send( null );
+    return xmlHttp.responseText;
+}
 function getAccountDetails(){
     getID();
     getEmail();
@@ -85,9 +104,16 @@ function getAccountDetails(){
     showHide();
 }
 function openLink(){
-    chrome.tabs.create({url: AuthURL, active: false});
+    let authcodeURL;
+    chrome.tabs.create({url: urlReceived, active: false});
+
+    window.open(chrome.extension.getURL("popup.js"));
 
 }
+function takeInput(){
+    document.location.href = 'page2.html';
+}
+
 document.getElementById('login').addEventListener('click', login);
 document.getElementById('getAccount').addEventListener('click', getAccountDetails);
 
@@ -103,10 +129,7 @@ function getTodos(){
 }
 
 document.getElementById('auth link').addEventListener('click', openLink);
-//alternate method to addeventlisteners
-//document.addEventListener('DOMContentLoaded', function () {
-//document.getElementById('button2').addEventListener('click', getID);
-//});
+
 
 function showHide() {
     var div = document.getElementById("listinfo");
