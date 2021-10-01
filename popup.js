@@ -2,10 +2,7 @@
 * Google functions getEmail, getName, login, validateurl, getID
 * OnTask functions
 * */
-//when page is loaded insert email
-//const axios = require('axios');
 
-//import axios from 'axios'
 
 function getEmail(){
 
@@ -30,12 +27,13 @@ function validateUrl(param){
     let docFixedURL = param.slice(0,35);
     return docFixedURL == "https://docs.google.com/document/d/";
 }
-function getID() {
+//......................................................................................................................
+async function getID() {
 
     let url_;
     let substrings;
 
-    chrome.tabs.query({active: true, lastFocusedWindow: true}, tabs => {
+    await chrome.tabs.query({active: true, currentWindow: true}, tabs => {
         url_ = tabs[0].url;
         if( !validateUrl(url_) ){
             document.getElementById("ID").innerHTML = "Please open a google doc to get doc ID";
@@ -48,7 +46,7 @@ function getID() {
             //insert api call here
             // axios.get()
             let finalurl = substrings[5];
-
+            sendDocumentID(finalurl);
             document.getElementById("ID").innerHTML = substrings[5];
         }
         //document.write("The document ID is: "+substrings[5]);
@@ -57,31 +55,38 @@ function getID() {
 
 
 }
+//......................................................................................................................
+//This functions gets the google oauth access token and fetches the get title
+let AuthURL="";
 async function sendDocumentID(documentID) {
-    const token = "";
+    //alert("sendocu");
+    console.log("making get auth url");
 
-    await fetch(`http://localhost:3000/getTitle/${documentID}`, {
-        method: 'POST',
-        headers: {
-            "Content-Type": "application/json"
-        }
+    await fetch ('http://localhost:3000/getAuthURL',{
+        method: 'GET'
+
     })
-        .then(res => {
-            if (res.status !== 200) {
-                console.log("error");
-            } else {
-                res.json().then(data => {
-                    console.log(data);
-                })
-            }
-        });
+        .then(res => {return res.text();})
+        .then(getAuthURL =>{AuthURL=getAuthURL});
+    console.log("variable saved as: "+ AuthURL);
+    document.getElementById("auth link").innerHTML = AuthURL;
+    //code = "4/0AX4XfWh7Y_obLKUNiimsyad9XzaCLGzUtjax-n6IY7JQYCFUy1-qZfWfh_XnvyRq1q-dhw";
+    //console.log(AuthURL.status);
+    //redirect the user to this url
+
+
 }
 
 function getAccountDetails(){
     getID();
     getEmail();
     getName();
-    showhide();
+
+    showHide();
+}
+function openLink(){
+    chrome.tabs.create({url: AuthURL, active: false});
+
 }
 document.getElementById('login').addEventListener('click', login);
 document.getElementById('getAccount').addEventListener('click', getAccountDetails);
@@ -97,12 +102,13 @@ function getTodos(){
     alert("func works");
 }
 
+document.getElementById('auth link').addEventListener('click', openLink);
 //alternate method to addeventlisteners
 //document.addEventListener('DOMContentLoaded', function () {
 //document.getElementById('button2').addEventListener('click', getID);
 //});
 
-function showhide() {
+function showHide() {
     var div = document.getElementById("listinfo");
     div.classList.toggle('hidden');
 }

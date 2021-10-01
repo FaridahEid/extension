@@ -87,3 +87,11 @@ body {
 .login input[type="submit"]:focus {
     border-color: #05a;
 }
+
+.hidden{
+    display: none;
+}
+
+a{
+    font-size: 10px;
+}
