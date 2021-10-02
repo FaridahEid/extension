@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Test extension",
+  "version": "1.0",
+  "description": "Hello world extension",
+  "icons":{
+    "128": "./img/icon128.png",
+    "48": "./img/icon48.png",
+    "16": "./img/icon16.png"
+  },
+  "action": {
+    "default_icon": "./img/icon16.png",
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "tabs"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ]
+
+}

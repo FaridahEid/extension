@@ -3,6 +3,8 @@
 * OnTask functions
 * */
 
+const axios = require('axios');
+
 
 function getEmail(){
 
@@ -16,7 +18,7 @@ function getName(){
 
 //goes to a different html page
 function login(){
-
+    getCredentials();
 }
 
 
@@ -48,7 +50,7 @@ async function getID() {
             let finalurl = substrings[5];
             getCredentials();
             document.getElementById("ID").innerHTML = substrings[5];
-            sendDocumentID(finalurl);
+            //sendDocumentID(finalurl);
         }
         //document.write("The document ID is: "+substrings[5]);
         // use `url` here inside the callback because it's asynchronous!
@@ -69,25 +71,10 @@ let AuthURL="no url";
 let urlReceived;
 let token;
 async function getCredentials() {
-    //alert("sendocu");
-    await fetch ('http://localhost:3000/getAuthURL',{
-        method: 'GET'
-        /*headers: {
-            'Content-Type': 'application/json'
-        }*/
-    })
-
-        .then(res=> res.text())
-        .then(data=>urlReceived=data)
-
-    console.log(urlReceived);
-    //calling function to open the link
-
-    //console.log(token);
-    //console.log("variable saved as: "+ token);
-    document.getElementById("auth link").innerHTML = urlReceived;
-
-    //takeInput();
+    await axios.get("http://localhost:3000/getAuthURL")
+                .then(res => {
+                    chrome.tabs.create({url: res.data});
+                });
 }
 function httpGet(theUrl)
 {
@@ -107,11 +94,11 @@ function openLink(){
     let authcodeURL;
     chrome.tabs.create({url: urlReceived, active: false});
 
-    window.open(chrome.extension.getURL("popup.js"));
+    window.open(chrome.extension.getURL("../src/index.js"));
 
 }
 function takeInput(){
-    document.location.href = 'page2.html';
+    document.location.href = '../dist/page2.html';
 }
 
 document.getElementById('login').addEventListener('click', login);
@@ -120,7 +107,7 @@ document.getElementById('getAccount').addEventListener('click', getAccountDetail
 document.getElementById('get').addEventListener('click',function(){
     alert("redirecting..");
 
-    document.location.href = 'page2.html';
+    document.location.href = '../dist/page2.html';
 });
 
 
