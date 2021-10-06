@@ -2,31 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Hello world!!</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <p id="demo"></p>
-    <div class="Account Information">
+    <div class="login">
         <div class="login-triangle"></div>
 
-        <h2 class="login-header">Account Information</h2>
+        <h2 class="login-header">OnTask Configuration</h2>
 
-        <form class="manual credentials">
-
-                Token:<br><input type="text" id="token">
+        <form class="login-container">
                 <br>
-                Auth Code:<br><input type="text" id="authCode">
-
-                <input id="credentials" type="button" value="credentials">
+                <w>Workflow ID</w><br><input type="text" id="WorkflowID">
                 <br>
-
-
+                <w>API Key:</w><br><input type="text" id="APIKey">
+                <br>
+                <br>
+                <input id="Submit-OnTask-info" type="button" value="Submit info">
+                <br>
         </form>
+        <a id="back-button" class="previous round">&#8249;</a>
+        <a href="#" id="forward-button" class="next round">&#8250;</a>
     </div>
 
-    <script src="../src/page2.js"></script>
+    <script src="page2.js">
+    </script>
 </body>
 </html>
 

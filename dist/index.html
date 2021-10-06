@@ -9,24 +9,30 @@
 <body>
 <p id="demo"></p>
 <div class="login">
-    <div class="login-triangle"></div>
 
-    <h2 class="login-header">Log in</h2>
+    <div class="login-triangle"></div>
+    <h2 class="login-header">Welcome!</h2>
 
     <form class="login-container">
 
 
         <input id="login" type="submit" value="Log in...">
+
         <input id="getAccount" type="button" value="Authorize Account">
         <div2 id="listinfo">
             <h4><span id="ID"></span></h4>
             <h4><span id="email"></span></h4>
             <h4><span id="username"></span></h4>
         </div2>
-
-        <input id="get" type="button" value="Enter Token and auth code">
-        <a href="#" id="auth link"></a>
+        <input id="SignUp" type="button" value="Sign up">
+        <input id="OnTaskConfig" type="button" value="Configure OnTask">
+        <input id="sendForSignature" type="button" value="Send for Signature">
+        <input id="clear" type="button" value="Clear local storage">
     </form>
+    <br>
+    <a href="#" onclick="history.back()" class="previous round">&#8249;</a>
+    <a href="#" class="next round">&#8250;</a>
+
 </div>
 </body>
 <script type="module" src="main.js">

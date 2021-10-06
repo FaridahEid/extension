@@ -41,7 +41,10 @@ body {
     background: #ebebeb;
     padding: 12px;
 }
-
+.OnTask Configuration{
+    background: #ebebeb;
+    padding: 12px;
+}
 /* Every row inside .login-container is defined with p tags */
 .login p {
     padding: 12px;
@@ -92,6 +95,31 @@ body {
     display: none;
 }
 
-a{
-    font-size: 10px;
+a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 7px 14px;
+}
+
+a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.previous {
+    background-color: #f1f1f1;
+    color: black;
+}
+
+.next {
+    background-color: #98d8ec;
+    color: white;
+}
+
+.round {
+    border-radius: 50%;
+}
+w{
+    font-size: 18px;
+    color: #569ad5;
 }

@@ -5,7 +5,6 @@
 
 const axios = require('axios');
 
-
 function getEmail(){
 
     document.getElementById("email").innerHTML = "This is an email placeholder";
@@ -16,11 +15,6 @@ function getName(){
     document.getElementById("username").innerHTML = "This is a username placeholder";
 }
 
-//goes to a different html page
-function login(){
-    getCredentials();
-}
-
 
 //VALIDATES THAT THE URL IS OF A GOOGLE DOC (FUTURE EDIT: OR SHEETS OR SLIDES)
 //splitting funcs slice(0,3), split, str2= str.
@@ -29,9 +23,14 @@ function validateUrl(param){
     let docFixedURL = param.slice(0,35);
     return docFixedURL == "https://docs.google.com/document/d/";
 }
-//......................................................................................................................
-async function getID() {
 
+async function login() {
+    await axios.get("http://localhost:3000/getAuthURL")
+                .then(res => {
+                    chrome.tabs.create({url: res.data});
+                });
+}
+async function sendForSignature() {
     let url_;
     let substrings;
 
@@ -41,48 +40,38 @@ async function getID() {
             document.getElementById("ID").innerHTML = "Please open a google doc to get doc ID";
         }
         else {
-
             substrings = url_.split('/', 7);
-            //suggest validation that link is a google docs link
 
-            //insert api call here
-            // axios.get()
-            let finalurl = substrings[5];
-            getCredentials();
+            let finalURL = substrings[5];
+
             document.getElementById("ID").innerHTML = substrings[5];
-            //sendDocumentID(finalurl);
+
+            chrome.storage.local.get("token", (data) => {
+                const user_token = data.token;
+                alert("Successfully sent the document for signature.");
+
+                axios.post(`http://localhost:3000/sendToOnTask/${finalURL}`, {
+                    token: user_token
+                })
+                    .then(res => {
+                        alert(res);
+                    });
+            });
         }
-        //document.write("The document ID is: "+substrings[5]);
-        // use `url` here inside the callback because it's asynchronous!
     });
+}
 
+chrome.storage.local.get("token", (data) => {
+    let loginButton = document.getElementById('login');
 
-}
-//......................................................................................................................
-//This functions gets the google oauth access token and fetches the get title
-let AuthURL="no url";
-//let code="4/0AX4XfWh5crIkp-wYTVc1tquyvTL5YgAMGxOrkOqz4471phqu9lxUv2LzOFape-_obz5Ocg";
-/*let token={
-    "access_token": "ya29.a0ARrdaM-R6PSxv1yNVLZGmcYHgiokCIQ6kKB7JkprM2Zu_ISN51zihYsop7GvNp9E6E_2KzO-rXk5a0qq18HPb2M3E9B_1YDKuOxqOy7fIYmXZJSiQQlnoKGoxslBzCvz0I20jC_QHbnqxpnGm5k2Cs6p-xlH1A",
-    "scope": "https://www.googleapis.com/auth/drive",
-    "token_type": "Bearer",
-    "expiry_date": 1633090978412
-};*/
-let urlReceived;
-let token;
-async function getCredentials() {
-    await axios.get("http://localhost:3000/getAuthURL")
-                .then(res => {
-                    chrome.tabs.create({url: res.data});
-                });
-}
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
+    if (data.token == undefined) {
+        loginButton.value = "Log in...";
+
+    } else {
+        loginButton.value = "Signed in";
+    }
+});
+
 function getAccountDetails(){
     getID();
     getEmail();
@@ -103,19 +92,27 @@ function takeInput(){
 
 document.getElementById('login').addEventListener('click', login);
 document.getElementById('getAccount').addEventListener('click', getAccountDetails);
+document.getElementById('sendForSignature').addEventListener('click', sendForSignature);
+document.getElementById('clear').addEventListener('click', () => {
+    chrome.storage.local.clear();
+});
 
-document.getElementById('get').addEventListener('click',function(){
-    alert("redirecting..");
+document.getElementById('OnTaskConfig').addEventListener('click',function(){
+    //alert("redirecting..");
 
-    document.location.href = '../dist/page2.html';
+    document.location.href = 'page2.html';
+});
+
+document.getElementById('SignUp').addEventListener('click',function(){
+    //alert("redirecting..");
+
+    document.location.href = 'signup.html';
 });
 
 
-function getTodos(){
-    alert("func works");
-}
 
 document.getElementById('auth link').addEventListener('click', openLink);
+
 
 
 function showHide() {
