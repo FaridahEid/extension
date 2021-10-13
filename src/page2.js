@@ -2,7 +2,7 @@ let wfID;
 let apiKey;
 let groupname;
 
-
+const axios = require('axios');
 
 window.addEventListener('load',showOnTaskInfo);
 //if there is information in the database show it
@@ -50,21 +50,20 @@ async function showOnTaskInfo(){
 
         document.getElementById("end-editing").style.visibility = "hidden";
         document.getElementById("edit-button").style.visibility = "visible";
-        editOnTaskinfo();
+        sendOnTaskInfo();
     } );
 }
 
 //function that updates the wfID, ApiKey, groupname
-async function sendOnTaskinfo(){
+async function sendOnTaskInfo(){
 
-    console.log("from editOnTaskinfo func");
+    console.log("from editOnTaskInfo func");
     console.log(groupname);
     console.log(wfID);
     console.log(apiKey);
-
     //send to server
     //call api()
-    await axios.post("http://localhost:3000/getWorkflowInfos/${apikey}",{
+    await axios.post(`http://localhost:3000/getWorkflowInfos/${apiKey}`,{
         workflow: wfID,
         groupName: groupname
     })
