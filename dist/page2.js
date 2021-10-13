@@ -2,6 +2,8 @@ let wfID;
 let apiKey;
 let groupname;
 
+
+
 window.addEventListener('load',showOnTaskInfo);
 //if there is information in the database show it
 async function showOnTaskInfo(){
@@ -62,27 +64,12 @@ async function sendOnTaskinfo(){
 
     //send to server
     //call api()
-    await axios.post("http://localhost:3000/sendOnTaskinfo",{
-        apikey: apiKey,
+    await axios.post("http://localhost:3000/getWorkflowInfos/${apikey}",{
         workflow: wfID,
-        groupname: groupname
-
+        groupName: groupname
     })
         .then(res => {
             console.log(res);
         });
 }
-/*//Submitting new onTask info
-document.getElementById('Submit-OnTask-info').addEventListener('click',(e) => {
-    e.preventDefault();
-    editOnTaskinfo();
 
-});*/
-//API TO SEND THIS INFORMATION TO THE SERVER
-/*
-async function sendOnTaskinfo() {
-    await axios.post("http://localhost:3000/getOnTaskinfo")
-        .then(res => {
-            chrome.tabs.create({url: res.data});
-        });
-}*/
