@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <p id="demo"></p>
     <div class="login">
         <div class="login-triangle"></div>
@@ -13,19 +14,24 @@
         <h2 class="login-header">OnTask Configuration</h2>
 
         <form class="login-container">
-                <br>
-                <w>Workflow ID</w><br><input type="text" id="WorkflowID">
-                <br>
-                <w>API Key:</w><br><input type="text" id="APIKey">
-                <br>
-                <br>
-                <input id="Submit-OnTask-info" type="button" value="Submit info">
+            <br>
+
+                <div4 id="container">
+                    <w>Group:</w><p id="Group_info"></p>
+                    <w>WorkflowID:</w><p id="WorkflowID_info"></p>
+                    <w>APIKey:</w><p id="APIKey_info"></p>
+
+                    <input id="edit-button" type="button" value="Edit">
+                    <input id="end-editing" type="button" value="Done">
+                </div4>
+
+
+           <!-- <input id="Submit-OnTask-info" type="button" value="Submit info">-->
                 <br>
         </form>
         <a id="back-button" class="previous round">&#8249;</a>
         <a href="#" id="forward-button" class="next round">&#8250;</a>
     </div>
-
     <script src="page2.js">
     </script>
 </body>

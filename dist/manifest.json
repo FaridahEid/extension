@@ -3,6 +3,7 @@
   "name": "Test extension",
   "version": "1.0",
   "description": "Hello world extension",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqrtjzrbPExmkMsSqmVmVOa2yqYfX9aI1vJQShXyhPH70ssfM1PSL5Md6q1VhnApHbynJtpxQxHaUAvMDqm10kDKuaghpSceGQsVcD+1/4Hd48AksDSrXoer8lN79VxIBelWKXrpKNM76BR9+OrcOag7ee6rITUjKk9PUo6Eqbq1T1V1PrzUdh0NmbQRMSsvd1bvZeNc7FlW3Gy01xWQCDmPnksjUm44Bmmrt+TPurjl4H0XwEYDuodWMeVCDdEAVo0jes7ONrQBqoaltfFc7wy4egBEx4mDhPxyIhXqrUaz30K7EbTmVwPHEkZWC2GQMBsCA+w/x8jMfZyTzzyJR2QIDAQAB",
   "icons":{
     "128": "./img/icon128.png",
     "48": "./img/icon48.png",
@@ -20,8 +21,15 @@
   },
   "permissions": [
     "tabs",
-    "storage"
+    "storage",
+    "identity", "identity.email",
+    "https://accounts.google.com/o/oauth2/token"
   ],
+  "background.service_worker": {
+    "scripts": [
+      "./jsrasign-all-min.js"
+    ]
+  },
   "host_permissions": [
     "<all_urls>"
   ]

@@ -87,7 +87,7 @@ function openLink(){
 
 }
 function takeInput(){
-    document.location.href = '../dist/page2.html';
+    document.location.href = 'page2.html';
 }
 
 document.getElementById('login').addEventListener('click', login);
@@ -110,13 +110,9 @@ document.getElementById('SignUp').addEventListener('click',function(){
 });
 
 
-
-document.getElementById('auth link').addEventListener('click', openLink);
-
-
-
 function showHide() {
     var div = document.getElementById("listinfo");
     div.classList.toggle('hidden');
 }
+
 
