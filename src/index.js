@@ -5,16 +5,6 @@
 
 const axios = require('axios');
 
-function getEmail(){
-
-    document.getElementById("email").innerHTML = "This is an email placeholder";
-}
-
-//when page is loaded enter name
-function getName(){
-    document.getElementById("username").innerHTML = "This is a username placeholder";
-}
-
 
 //VALIDATES THAT THE URL IS OF A GOOGLE DOC (FUTURE EDIT: OR SHEETS OR SLIDES)
 //splitting funcs slice(0,3), split, str2= str.
@@ -72,13 +62,6 @@ chrome.storage.local.get("token", (data) => {
     }
 });
 
-function getAccountDetails(){
-    getID();
-    getEmail();
-    getName();
-
-    showHide();
-}
 function openLink(){
     let authcodeURL;
     chrome.tabs.create({url: urlReceived, active: false});
@@ -86,12 +69,9 @@ function openLink(){
     window.open(chrome.extension.getURL("../src/index.js"));
 
 }
-function takeInput(){
-    document.location.href = 'page2.html';
-}
+
 
 document.getElementById('login').addEventListener('click', login);
-document.getElementById('getAccount').addEventListener('click', getAccountDetails);
 document.getElementById('sendForSignature').addEventListener('click', sendForSignature);
 document.getElementById('clear').addEventListener('click', () => {
     chrome.storage.local.clear();

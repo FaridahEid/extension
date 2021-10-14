@@ -1,6 +1,9 @@
 let wfID;
 let apiKey;
 let groupname;
+//list of all the info that is returned from getWorkflowInfos API call
+let workflowInfo;
+let workflowInfoNames =[];
 
 const axios = require('axios');
 
@@ -22,6 +25,7 @@ async function showOnTaskInfo(){
     const APIKey_id = document.getElementById("APIKey_info");
     const edit_button = document.getElementById("edit-button");
     const end_button = document.getElementById("end-editing");
+    const workflowNamesList = document.getElementById("selectWorkflow");
 
     edit_button.addEventListener("click", function() {
         document.getElementById("edit-button").style.visibility = "hidden";
@@ -36,9 +40,9 @@ async function showOnTaskInfo(){
 
     end_button.addEventListener("click", function() {
         //checking values
-        console.log(Group_id.innerHTML);
+        /*console.log(Group_id.innerHTML);
         console.log(workflowID_id.innerHTML);
-        console.log(APIKey_id.innerHTML);
+        console.log(APIKey_id.innerHTML);*/
         //saving values for variables
         groupname=Group_id.innerHTML;
         wfID=workflowID_id.innerHTML;
@@ -50,25 +54,59 @@ async function showOnTaskInfo(){
 
         document.getElementById("end-editing").style.visibility = "hidden";
         document.getElementById("edit-button").style.visibility = "visible";
+
         sendOnTaskInfo();
+        //list has been created now listen for changes
+        workflowNamesList.addEventListener("change", function() {
+            var index =workflowNamesList.selectedIndex;
+            console.log("values chosen is:"+workflowNamesList.value);
+            console.log("index is:"+index);
+            console.log(workflowInfo[index].workflowId);
+            document.getElementById("WorkflowID_info").innerHTML = workflowInfo[index].workflowId;
+        } );
+
     } );
 }
-
+function dropDownLists() {
+    var select = document.getElementById("selectWorkflow");
+    var options = workflowInfoNames;
+    console.log("workflowname are:"+workflowInfoNames);
+    console.log("option list has"+options);
+    // Optional: Clear all existing options first:
+    select.innerHTML = "";
+    console.log("length of options is"+options.length);
+    // Populate list with options:
+    for (var i = 0; i < options.length; i++) {
+        var opt = options[i];
+        select.innerHTML += "<option value=\"" + opt + "\">" + opt + "</option>";
+    }
+}
 //function that updates the wfID, ApiKey, groupname
-async function sendOnTaskInfo(){
-
-    console.log("from editOnTaskInfo func");
+function sendOnTaskInfo(){
+    console.log("from sendOnTaskInfo func");
     console.log(groupname);
     console.log(wfID);
     console.log(apiKey);
     //send to server
     //call api()
-    await axios.post(`http://localhost:3000/getWorkflowInfos/${apiKey}`,{
-        workflow: wfID,
-        groupName: groupname
-    })
-        .then(res => {
-            console.log(res);
-        });
+    chrome.storage.local.get("token", (data) => {
+        const user_token = data.token;
+
+        axios.post(`http://localhost:3000/getWorkflowInfos/${apiKey}`, {
+            token: user_token,
+            groupName: groupname
+        })
+            .then(res => {
+                workflowInfo=res.data;
+                //console.log(workflowInfo);
+
+                workflowInfo.map(el=>workflowInfoNames.push(el.name));
+                console.log(workflowInfoNames);
+                console.log("intitializing drop downlist");
+                dropDownLists();
+
+            });
+    });
+
 }
 
